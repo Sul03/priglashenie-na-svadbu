@@ -158,7 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
       mainContent.hidden = false;
       lockScreen.classList.add("unlocked");
       document.body.style.overflow = "";
-      initReveal();
+      // Пока mainContent был hidden, браузер ни разу не отрисовал исходное
+      // opacity:0 у .reveal-item — без этого кадра переход не анимируется,
+      // а элементы просто мгновенно возникают в конечном виде. Двойной
+      // requestAnimationFrame гарантирует, что этот кадр состоится.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initReveal();
+        });
+      });
     }, 600);
   }
 
