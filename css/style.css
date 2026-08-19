@@ -1,0 +1,596 @@
+/* ============================================================
+   ШРИФТЫ — точные файлы, извлечённые из оригинального шаблона.
+   ============================================================ */
+
+@font-face {
+  font-family: "Bickham Cyr";
+  src: url("../assets/fonts/BickhamScriptPro3-Cyrillic.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Playfair Cyr";
+  src: url("../assets/fonts/PlayfairDisplay-Cyrillic.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Circe Rounded";
+  src: url("../assets/fonts/CirceRounded-300.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Circe Rounded";
+  src: url("../assets/fonts/CirceRounded-400.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Circe Rounded";
+  src: url("../assets/fonts/CirceRounded-600.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Circe Rounded";
+  src: url("../assets/fonts/CirceRounded-800.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   ПЕРЕМЕННЫЕ
+   ============================================================ */
+
+:root {
+  --ink: #201c17;
+  --ink-soft: #4a433a;
+  --cream: #f2ede4;
+  --cream-deep: #e8dfd0;
+  --gold: #b9973f;
+  --gold-soft: #c9a227;
+  --paper: #efeae3;
+  --line: rgba(32, 28, 23, 0.25);
+
+  --font-script: "Bickham Cyr", cursive;
+  --font-caps: "Circe Rounded", Arial, sans-serif;
+  --font-num: "Playfair Cyr", Georgia, serif;
+
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-caps);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+html {
+  background-color: var(--cream);
+}
+
+body {
+  min-height: 100dvh;
+  background: transparent;
+}
+
+img { max-width: 100%; display: block; }
+button { font-family: inherit; }
+
+/* ============================================================
+   ФОН — единая шёлковая подложка на весь сайт (настоящий <img>,
+   а не CSS background-image — так надёжнее рендерится везде).
+   ============================================================ */
+
+.bg-photo {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  max-width: none;
+}
+.bg-photo::after { content: none; }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(242,237,228,.35) 0%,
+    rgba(242,237,228,.08) 18%,
+    rgba(232,223,208,.15) 60%,
+    rgba(242,237,228,.55) 100%);
+}
+
+/* ============================================================
+   ЭКРАНЫ — общая раскладка
+   ============================================================ */
+
+.screen {
+  min-height: 100dvh;
+  width: 100%;
+  padding: max(28px, env(safe-area-inset-top)) 28px max(40px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+/* ============================================================
+   КНОПКА ЗВУКА
+   ============================================================ */
+
+.sound-btn {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  right: 18px;
+  z-index: 50;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,.75);
+  box-shadow: 0 4px 18px rgba(32,28,23,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: transform .25s var(--ease-out), background .25s;
+}
+.sound-btn:active { transform: scale(.92); }
+.sound-btn svg { width: 22px; height: 22px; }
+.icon-sound-off { display: none; }
+.sound-btn.muted .icon-sound-on { display: none; }
+.sound-btn.muted .icon-sound-off { display: block; }
+
+/* ============================================================
+   ЭКРАН ЗАМКА
+   ============================================================ */
+
+.screen-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  /* Фона у самого экрана нет — под ним просвечивает background-attachment:fixed
+     с <html>, тот же самый шёлк. Здесь только лёгкая читаемость-подложка. */
+  background: linear-gradient(180deg, rgba(242,237,228,.25) 0%, rgba(232,223,208,.1) 50%, rgba(242,237,228,.5) 100%);
+  transition: opacity .8s var(--ease-out), visibility .8s;
+}
+.screen-lock.unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.lock-inner { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+.script-caps {
+  font-family: var(--font-caps);
+  font-weight: 300;
+  font-size: clamp(26px, 7.5vw, 34px);
+  letter-spacing: 2px;
+  margin: 0 0 2px;
+}
+.script-cursive-lg {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(68px, 24vw, 108px);
+  line-height: 1;
+  margin: 0 0 34px;
+}
+.heart { font-size: .7em; vertical-align: middle; }
+
+.lock-btn {
+  border: none;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 6px;
+  transition: transform .3s var(--ease-out);
+}
+.lock-btn:active { transform: scale(.9); }
+.lock-shackle {
+  transform-origin: 32px 22px;
+  transition: transform .5s var(--ease-out);
+}
+.unlocking .lock-shackle {
+  transform: rotate(-35deg) translateX(-3px);
+}
+
+.lock-hint {
+  margin-top: 18px;
+  font-size: 14px;
+  letter-spacing: .5px;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+/* ============================================================
+   ОБЩИЕ ЭЛЕМЕНТЫ ТЕКСТА
+   ============================================================ */
+
+.script-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(56px, 18vw, 84px);
+  line-height: 1;
+  margin: 0 0 18px;
+}
+
+.caps-title {
+  font-family: var(--font-caps);
+  font-weight: 300;
+  font-size: clamp(22px, 6.4vw, 28px);
+  line-height: 1.35;
+  letter-spacing: .5px;
+  margin: 0 0 20px;
+}
+
+.body-text {
+  font-family: var(--font-caps);
+  font-weight: 300;
+  font-size: clamp(15px, 4.2vw, 17px);
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 34ch;
+  margin: 0 0 18px;
+}
+.body-text.small { font-size: clamp(13px, 3.6vw, 15px); }
+
+.label-caps {
+  font-family: var(--font-caps);
+  font-weight: 400;
+  letter-spacing: 3px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 1.4px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  font-family: var(--font-caps);
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  font-size: 13px;
+  padding: 16px 30px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .3s var(--ease-out), color .3s var(--ease-out), transform .2s;
+}
+.btn-outline:active { transform: scale(.97); }
+@media (hover: hover) {
+  .btn-outline:hover { background: var(--ink); color: var(--cream); }
+}
+
+/* ============================================================
+   ЭКРАН 1 — ГЛАВНЫЙ
+   ============================================================ */
+
+.date-short {
+  font-family: var(--font-caps);
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-size: clamp(15px, 4.4vw, 17px);
+  margin: 0 0 28px;
+}
+.monogram {
+  font-family: var(--font-script);
+  font-size: clamp(90px, 30vw, 140px);
+  line-height: .8;
+  margin-bottom: 14px;
+}
+.names-en {
+  font-family: var(--font-caps);
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  font-size: clamp(24px, 8vw, 34px);
+  margin: 0 0 60px;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: max(36px, env(safe-area-inset-bottom));
+  left: 0; right: 0;
+  font-size: 12px;
+  letter-spacing: .5px;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+.chevrons {
+  display: block;
+  margin-top: 4px;
+  font-size: 20px;
+  animation: bounce 1.8s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* ============================================================
+   ЭКРАН 2 — ОБРАЩЕНИЕ
+   ============================================================ */
+
+.music-pill {
+  background: rgba(255,255,255,.55);
+  border-radius: 40px;
+  padding: 14px 26px;
+  font-size: 12.5px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 30ch;
+  margin: 0 0 46px;
+  backdrop-filter: blur(4px);
+}
+
+/* ============================================================
+   ЭКРАН 3 — ДАТА / КАЛЕНДАРЬ
+   ============================================================ */
+
+.date-caps {
+  font-family: var(--font-caps);
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-size: clamp(19px, 5.4vw, 23px);
+  margin: 0 0 34px;
+}
+.calendar {
+  width: 100%;
+  max-width: 320px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 18px;
+  column-gap: 4px;
+  font-family: var(--font-caps);
+  font-weight: 300;
+  font-size: clamp(15px, 4.2vw, 18px);
+}
+.cal-day { position: relative; padding: 6px 0; }
+.cal-day.cal-target {
+  font-weight: 600;
+}
+.cal-day .circle {
+  position: absolute;
+  inset: -6px;
+  border: 1.6px solid var(--gold-soft);
+  border-radius: 50%;
+  transform: rotate(-4deg);
+  opacity: 0;
+}
+.cal-day.cal-target.circled .circle {
+  opacity: 1;
+  animation: circleIn .6s var(--ease-out) forwards;
+}
+@keyframes circleIn {
+  from { clip-path: inset(0 100% 0 0 round 50%); }
+  to   { clip-path: inset(0 0 0 0 round 50%); }
+}
+
+/* ============================================================
+   ЭКРАН 4 — ЛОКАЦИЯ
+   ============================================================ */
+
+.venue-title {
+  font-family: var(--font-caps);
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: clamp(19px, 5.4vw, 24px);
+  line-height: 1.35;
+  margin: 0 0 22px;
+  max-width: 26ch;
+}
+.venue-address { font-weight: 400; color: var(--ink); }
+#mapLink { margin: 26px 0 34px; }
+.venue-photo {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(32,28,23,.18);
+}
+
+/* ============================================================
+   ЭКРАН 6 — ТАЙМЕР
+   ============================================================ */
+
+.timer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 6px;
+}
+.timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 54px;
+}
+.timer-num {
+  font-family: var(--font-num);
+  font-weight: 400;
+  font-size: clamp(30px, 9vw, 40px);
+  line-height: 1;
+}
+.timer-unit small {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: .5px;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+.timer-sep {
+  font-family: var(--font-num);
+  font-size: clamp(24px, 7vw, 32px);
+  color: var(--line);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   ЭКРАН 7 — ПОДТВЕРЖДЕНИЕ
+   ============================================================ */
+
+.deadline {
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin: 0 0 24px;
+}
+#openFormBtn { margin-top: 8px; }
+
+/* ============================================================
+   ЭКРАН 8 — ФИНАЛ
+   ============================================================ */
+
+.screen-final .caps-title { font-weight: 400; letter-spacing: 1.5px; }
+
+/* ============================================================
+   МОДАЛКА — АНКЕТА
+   ============================================================ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+}
+.modal[hidden] { display: none; }
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 17, 13, .45);
+  opacity: 0;
+  transition: opacity .35s var(--ease-out);
+}
+.modal-sheet {
+  position: relative;
+  width: 100%;
+  max-height: 88dvh;
+  overflow-y: auto;
+  background: var(--paper);
+  border-radius: 22px 22px 0 0;
+  padding: 30px 26px max(30px, env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform .4s var(--ease-out);
+  -webkit-overflow-scrolling: touch;
+}
+.modal.open .modal-backdrop { opacity: 1; }
+.modal.open .modal-sheet { transform: translateY(0); }
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: none;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.rsvp-form { text-align: left; margin-top: 14px; }
+.field { display: block; margin-bottom: 26px; }
+.field-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.field input[type="text"] {
+  width: 100%;
+  border: none;
+  border-bottom: 1.4px solid var(--line);
+  background: transparent;
+  font-family: var(--font-caps);
+  font-size: 15px;
+  padding: 6px 2px 10px;
+  color: var(--ink);
+}
+.field input[type="text"]::placeholder { color: #a89f8f; }
+.field input[type="text"]:focus { outline: none; border-bottom-color: var(--ink); }
+
+.field-group {
+  border: none;
+  padding: 0;
+  margin: 0 0 26px;
+}
+.field-group legend {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  padding: 0;
+}
+.radio-row, .check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 8px 0;
+  cursor: pointer;
+}
+.radio-row input, .check-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ink);
+  flex-shrink: 0;
+}
+
+.rsvp-form .btn-outline {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.rsvp-success {
+  text-align: center;
+  padding: 60px 10px;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+/* ============================================================
+   АНИМАЦИИ ПОЯВЛЕНИЯ (IntersectionObserver навешивает .in-view)
+   ============================================================ */
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+}
+.reveal.in-view .reveal-item { opacity: 1; transform: translateY(0); }
+.reveal.in-view .reveal-item:nth-child(1) { transition-delay: .02s; }
+.reveal.in-view .reveal-item:nth-child(2) { transition-delay: .10s; }
+.reveal.in-view .reveal-item:nth-child(3) { transition-delay: .18s; }
+.reveal.in-view .reveal-item:nth-child(4) { transition-delay: .26s; }
+.reveal.in-view .reveal-item:nth-child(5) { transition-delay: .34s; }
+.reveal.in-view .reveal-item:nth-child(6) { transition-delay: .42s; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .reveal-item { opacity: 1; transform: none; }
+}

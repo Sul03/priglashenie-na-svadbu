@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Приглашение на свадьбу</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<img class="bg-photo" src="assets/bg.jpg" alt="" aria-hidden="true">
+
+<button id="soundToggle" class="sound-btn" aria-label="Включить/выключить музыку" type="button">
+  <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/>
+    <path d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M18.5 6a8 8 0 0 1 0 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>
+  <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/>
+    <path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- ЭКРАН 0 — ЗАМОК -->
+<section id="screen-lock" class="screen screen-lock">
+  <div class="lock-inner">
+    <h1 class="script-caps">ПРИГЛАШЕНИЕ</h1>
+    <p class="script-cursive-lg">на <span class="heart">♥</span>свадьбу</p>
+    <button id="unlockBtn" class="lock-btn" type="button" aria-label="Разблокировать приглашение">
+      <svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="1.2"/>
+        <g class="lock-shackle">
+          <path d="M24 28v-6a8 8 0 0 1 16 0v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <rect x="21" y="28" width="22" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+        <circle cx="32" cy="35" r="1.6" fill="currentColor"/>
+        <path d="M32 36.5v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <p class="lock-hint">Разблокируйте<br>приглашение</p>
+  </div>
+</section>
+
+<main id="mainContent" class="main-content" hidden>
+
+  <!-- ЭКРАН 1 — ГЛАВНЫЙ -->
+  <section class="screen screen-hero reveal">
+    <p class="date-short reveal-item"></p>
+    <div class="monogram reveal-item"></div>
+    <p class="names-en reveal-item"></p>
+    <p class="scroll-hint reveal-item">Листайте вниз<br><span class="chevrons">⌄</span></p>
+  </section>
+
+  <!-- ЭКРАН 2 — ОБРАЩЕНИЕ -->
+  <section class="screen screen-greeting reveal">
+    <p class="music-pill reveal-item">Если музыка Вас отвлекает, ее можно отключить, нажав на кнопку</p>
+    <h2 class="caps-title reveal-item">ДОРОГИЕ РОДНЫЕ<br>И БЛИЗКИЕ!</h2>
+    <p class="body-text reveal-item">
+      Приглашаем Вас разделить с нами радость особенного для нас события и стать частью нашей семейной истории!
+    </p>
+    <p class="body-text reveal-item">
+      Совсем скоро состоится наша СВАДЬБА!<br>
+      И мы не представляем этот праздник без Вас, близких и дорогих нам людей.
+    </p>
+  </section>
+
+  <!-- ЭКРАН 3 — ДАТА -->
+  <section class="screen screen-date reveal">
+    <h2 class="script-title reveal-item">Дата</h2>
+    <p class="date-caps reveal-item"></p>
+    <div class="calendar reveal-item" id="calendar"></div>
+  </section>
+
+  <!-- ЭКРАН 4 — ЛОКАЦИЯ -->
+  <section class="screen screen-location reveal">
+    <h2 class="script-title reveal-item">Локация</h2>
+    <p class="body-text reveal-item">Наш праздник пройдет</p>
+    <p class="venue-title reveal-item"></p>
+    <p class="body-text small reveal-item">по адресу:<br><span class="venue-address"></span></p>
+    <a class="btn-outline reveal-item" id="mapLink" target="_blank" rel="noopener">СМОТРЕТЬ АДРЕС НА КАРТЕ</a>
+    <img class="venue-photo reveal-item" id="venuePhoto" alt="Место проведения торжества">
+  </section>
+
+  <!-- ЭКРАН 6 — ТАЙМЕР -->
+  <section class="screen screen-countdown reveal">
+    <h2 class="script-title reveal-item">До свадьбы</h2>
+    <p class="label-caps reveal-item">ОСТАЛОСЬ</p>
+    <div class="timer reveal-item">
+      <div class="timer-unit"><span class="timer-num" id="tDays">00</span><small>дни</small></div>
+      <span class="timer-sep">|</span>
+      <div class="timer-unit"><span class="timer-num" id="tHours">00</span><small>часы</small></div>
+      <span class="timer-sep">|</span>
+      <div class="timer-unit"><span class="timer-num" id="tMinutes">00</span><small>мин</small></div>
+      <span class="timer-sep">|</span>
+      <div class="timer-unit"><span class="timer-num" id="tSeconds">00</span><small>сек</small></div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 7 — ПОДТВЕРЖДЕНИЕ -->
+  <section class="screen screen-confirm reveal">
+    <p class="caps-title reveal-item">ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br>СВОЁ ПРИСУТСТВИЕ</p>
+    <p class="deadline reveal-item" id="rsvpDeadline"></p>
+    <p class="body-text small reveal-item">
+      Просим Вас ответить на несколько вопросов, нажав на кнопку ниже.
+      Это поможет нам в подготовке незабываемого праздника!
+    </p>
+    <button class="btn-outline reveal-item" id="openFormBtn" type="button">ПОДТВЕРДИТЬ</button>
+  </section>
+
+  <!-- ЭКРАН 8 — ФИНАЛ -->
+  <section class="screen screen-final reveal">
+    <h2 class="script-title reveal-item">Ждём Вас!</h2>
+    <p class="caps-title reveal-item">ИСКРЕННЕ ВАШИ,<br><span id="finalNames"></span></p>
+  </section>
+
+</main>
+
+<!-- МОДАЛКА — АНКЕТА -->
+<div id="rsvpModal" class="modal" hidden>
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-sheet">
+    <button class="modal-close" id="closeFormBtn" type="button" aria-label="Закрыть">&times;</button>
+
+    <form id="rsvpForm" class="rsvp-form">
+      <label class="field">
+        <span class="field-label">Ваша фамилия:</span>
+        <input type="text" name="surname" placeholder="Ивановы" required>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Ваше имя (если Вы придете со своей парой, то укажите оба имени):</span>
+        <input type="text" name="firstname" placeholder="Иван и Анна" required>
+      </label>
+
+      <fieldset class="field-group">
+        <legend>Присутствие:</legend>
+        <label class="radio-row">
+          <input type="radio" name="presence" value="Приду(придём)" required>
+          <span>Я (мы) с удовольствием приду (придем)</span>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="presence" value="Не смогу(не сможем)">
+          <span>К сожалению, не смогу (не сможем) присутствовать</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="field-group" id="drinksGroup">
+        <legend>Что предпочитаете из напитков?</legend>
+        <!-- чекбоксы генерируются в app.js из CONFIG.drinkOptions -->
+      </fieldset>
+
+      <button type="submit" class="btn-outline">ПОДТВЕРДИТЬ</button>
+    </form>
+
+    <div id="rsvpSuccess" class="rsvp-success" hidden>
+      <p>Спасибо! Ваш ответ записан.</p>
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="none"></audio>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
