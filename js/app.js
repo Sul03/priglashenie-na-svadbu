@@ -146,17 +146,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainContent = $("#mainContent");
 
   function unlock() {
-    if (lockScreen.classList.contains("unlocked")) return;
+    if (lockScreen.classList.contains("unlocking")) return;
     lockScreen.classList.add("unlocking");
+    unlockBtn.disabled = true;
     if (CONFIG.musicSrc) {
       bgMusic.play().catch(() => { /* автоплей мог быть заблокирован — не критично */ });
     }
+    // Сначала дужка замка открывается и текст уходит вверх (.unlocking, ~600мс),
+    // затем весь экран мягко растворяется и слегка увеличивается (.unlocked, ~1.1с).
     setTimeout(() => {
-      lockScreen.classList.add("unlocked");
       mainContent.hidden = false;
+      lockScreen.classList.add("unlocked");
       document.body.style.overflow = "";
       initReveal();
-    }, 420);
+    }, 600);
   }
 
   document.body.style.overflow = "hidden"; // блокируем скролл, пока не разблокировано
