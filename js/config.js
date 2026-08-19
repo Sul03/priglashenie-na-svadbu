@@ -32,7 +32,7 @@ const CONFIG = {
 
   // Фоновая музыка (mp3). Положите файл в assets/music.mp3 и впишите путь сюда.
   // Пока пусто — кнопка-«динамик» не показывается.
-  musicSrc: "",
+  musicSrc: "assets/music.mp3",
 
   // URL веб-приложения Google Apps Script (см. GOOGLE_SHEETS_SETUP.md).
   // Пока пусто — форма подтверждения будет просто показывать успех локально,

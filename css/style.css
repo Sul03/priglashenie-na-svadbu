@@ -623,3 +623,37 @@ body::before {
   * { animation: none !important; transition: none !important; }
   .reveal-item { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   ЗАГЛУШКА ДЛЯ ПЛАНШЕТОВ/КОМПЬЮТЕРОВ
+   Сайт задуман только под телефон — на широких экранах вместо
+   приглашения показываем просьбу открыть ссылку с телефона.
+   ============================================================ */
+
+#desktopGate { display: none; }
+
+@media (min-width: 640px) {
+  #desktopGate {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    padding: 40px;
+  }
+  .desktop-gate-inner {
+    max-width: 420px;
+    text-align: center;
+  }
+  .desktop-gate-inner .script-caps { margin-bottom: 22px; }
+  .desktop-gate-text {
+    font-family: var(--font-caps);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+}
