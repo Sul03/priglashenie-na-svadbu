@@ -104,8 +104,19 @@ button { font-family: inherit; }
   object-fit: cover;
   object-position: center;
   max-width: none;
+  transform-origin: 50% 50%;
+  animation: silkDrift 28s ease-in-out infinite alternate;
 }
 .bg-photo::after { content: none; }
+
+/* Медленный "вдох-выдох" фото — лёгкий зум и сдвиг, будто ткань
+   едва заметно колышется. Изображение изначально увеличено (scale),
+   чтобы при сдвиге не показывались края за object-fit:cover. */
+@keyframes silkDrift {
+  0%   { transform: scale(1.08) translate(0%, 0%); }
+  50%  { transform: scale(1.14) translate(-1.4%, -1%); }
+  100% { transform: scale(1.09) translate(1.2%, 1.4%); }
+}
 
 body::before {
   content: "";
@@ -118,6 +129,30 @@ body::before {
     rgba(242,237,228,.08) 18%,
     rgba(232,223,208,.15) 60%,
     rgba(242,237,228,.55) 100%);
+}
+
+/* Лёгкий блик, медленно скользящий по шёлку — имитирует, как свет
+   играет на ткани при движении. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -15% -30%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(115deg,
+    transparent 32%,
+    rgba(255,255,255,.16) 45%,
+    rgba(255,255,255,.26) 50%,
+    rgba(255,255,255,.16) 55%,
+    transparent 68%);
+  background-size: 260% 260%;
+  mix-blend-mode: soft-light;
+  animation: silkShimmer 16s ease-in-out infinite;
+}
+@keyframes silkShimmer {
+  0%   { background-position: 15% 30%; }
+  50%  { background-position: 85% 70%; }
+  100% { background-position: 15% 30%; }
 }
 
 /* ============================================================
@@ -620,7 +655,7 @@ body::before {
 .reveal.in-view .reveal-item:nth-child(6) { transition-delay: 1.30s; }
 
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal-item { opacity: 1; transform: none; }
 }
 
