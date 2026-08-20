@@ -117,16 +117,19 @@ button { font-family: inherit; }
   will-change: transform;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  animation: silkDrift 28s ease-in-out infinite alternate;
+  animation: silkDrift 18s ease-in-out infinite;
 }
 
-/* Медленный "вдох-выдох" фото — лёгкий зум и сдвиг, будто ткань
-   едва заметно колышется. Изображение изначально увеличено (scale),
-   чтобы при сдвиге не показывались края за object-fit:cover. */
+/* Заметное "плавание" фото — зум, сдвиг и лёгкий поворот по кругу,
+   имитируют колыхание ткани. Изображение заранее увеличено (scale),
+   чтобы при сдвиге/повороте не показывались края за object-fit:cover.
+   Кадр 100% совпадает с 0% — цикл идёт бесшовно, без "alternate". */
 @keyframes silkDrift {
-  0%   { transform: scale(1.08) translate(0%, 0%); }
-  50%  { transform: scale(1.14) translate(-1.4%, -1%); }
-  100% { transform: scale(1.09) translate(1.2%, 1.4%); }
+  0%   { transform: scale(1.12) translate(0%, 0%)     rotate(0deg); }
+  25%  { transform: scale(1.18) translate(-2.2%, -1.6%) rotate(.6deg); }
+  50%  { transform: scale(1.22) translate(-0.8%, 1.4%)  rotate(-.5deg); }
+  75%  { transform: scale(1.17) translate(1.8%, -1%)    rotate(.4deg); }
+  100% { transform: scale(1.12) translate(0%, 0%)     rotate(0deg); }
 }
 
 body::before {
@@ -151,19 +154,19 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(115deg,
-    transparent 32%,
-    rgba(255,255,255,.16) 45%,
-    rgba(255,255,255,.26) 50%,
-    rgba(255,255,255,.16) 55%,
-    transparent 68%);
-  background-size: 260% 260%;
+    transparent 20%,
+    rgba(255,255,255,.30) 40%,
+    rgba(255,255,255,.48) 50%,
+    rgba(255,255,255,.30) 60%,
+    transparent 80%);
+  background-size: 220% 220%;
   mix-blend-mode: soft-light;
-  animation: silkShimmer 16s ease-in-out infinite;
+  animation: silkShimmer 9s ease-in-out infinite;
 }
 @keyframes silkShimmer {
-  0%   { background-position: 15% 30%; }
-  50%  { background-position: 85% 70%; }
-  100% { background-position: 15% 30%; }
+  0%   { background-position: 10% 20%; }
+  50%  { background-position: 90% 80%; }
+  100% { background-position: 10% 20%; }
 }
 
 /* ============================================================
