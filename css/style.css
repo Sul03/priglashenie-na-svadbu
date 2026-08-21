@@ -114,9 +114,6 @@ button { font-family: inherit; }
   object-position: center;
   max-width: none;
   transform-origin: 50% 50%;
-  will-change: transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
   animation: silkDrift 18s ease-in-out infinite;
 }
 
@@ -155,12 +152,11 @@ body::after {
   pointer-events: none;
   background: linear-gradient(115deg,
     transparent 20%,
-    rgba(255,255,255,.30) 40%,
-    rgba(255,255,255,.48) 50%,
-    rgba(255,255,255,.30) 60%,
+    rgba(255,255,255,.22) 40%,
+    rgba(255,255,255,.34) 50%,
+    rgba(255,255,255,.22) 60%,
     transparent 80%);
   background-size: 220% 220%;
-  mix-blend-mode: soft-light;
   animation: silkShimmer 9s ease-in-out infinite;
 }
 @keyframes silkShimmer {
