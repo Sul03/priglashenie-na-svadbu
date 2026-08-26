@@ -25,8 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dateShortEl) {
     dateShortEl.textContent = weddingDate.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" });
   }
-  const monogramEl = $(".monogram");
-  if (monogramEl) monogramEl.textContent = CONFIG.names.monogram;
   const namesEnEl = $(".names-en");
   if (namesEnEl) namesEnEl.textContent = CONFIG.names.en;
 

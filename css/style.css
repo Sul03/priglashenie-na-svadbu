@@ -396,35 +396,31 @@ body::before {
   margin: 0 0 28px;
 }
 /* Монограмма и имена — одна композиция: крупные каллиграфические
-   инициалы фоном, поверх них наложен ряд с именами (как на референсе:
-   инициалы "прошиты" именами насквозь, а не стоят отдельно сверху). */
+   инициалы фоном, поверх них наложен ряд с именами (как на референсе).
+   Монограмма — не текст шрифтом, а PNG, вырезанный по пикселям из
+   присланного вами референса (assets/monogram.png, см. _trace/ в корне
+   проекта — там же скрипт, которым он получен): такие росчерки не
+   встречаются ни в одном обычном шрифте, это отдельная иллюстрация.
+   Если имена пары поменяются, эту картинку нужно будет переделать
+   заново тем же способом — автоматически из текста она не соберётся. */
 .monogram-wrap {
   position: relative;
   width: 100%;
-  min-height: clamp(150px, 46vw, 230px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 56px;
+  min-width: 0; /* иначе флекс-родитель .screen не даёт сжаться уже картинки (1550px) */
+  margin: 0 0 40px;
 }
 .monogram {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-script);
-  font-weight: 400;
-  font-size: clamp(130px, 44vw, 210px);
-  line-height: 1;
-  letter-spacing: -.02em;
-  color: var(--ink);
-  white-space: nowrap;
+  display: block;
+  width: 100%;
+  height: auto;
   pointer-events: none;
 }
 .names-en {
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 47.5%; /* центр прозрачной прорези под текст в monogram.png */
+  transform: translateY(-50%);
   font-family: var(--font-caps);
   font-weight: 500;
   letter-spacing: 2.5px;
