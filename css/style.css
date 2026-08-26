@@ -91,25 +91,28 @@ img { max-width: 100%; display: block; }
 button { font-family: inherit; }
 
 /* ============================================================
-   ФОН — своя шёлковая подложка под каждым экраном (не одна общая
-   position:fixed на весь сайт).
-   На iOS Safari position:fixed-слой с непрерывной CSS-анимацией
-   перерисовывается только по событию скролла — сама по себе анимация
-   в покое "замирает". Обычный position:absolute внутри уже
-   находящейся в потоке секции (.screen) не привязан к вьюпорту и
-   перерисовывается браузером как любой другой контент — без этого
-   ограничения. Картинка вставляется в каждый .screen через JS
-   (см. app.js) — один и тот же файл, браузер отдаёт его из кэша.
-   ============================================================ */
+   ФОН — один слой на весь сайт, без шва между экранами.
+   Пробовали свою картинку под каждой секцией — избегает баг iOS
+   ("position:fixed без анимации не перерисовывается без скролла"),
+   но у секций разная высота, object-fit:cover обрезал фото каждый
+   раз по-своему, и на стыке был виден шов.
+   Здесь — один-единственный элемент (шва нет по определению),
+   position:absolute (не fixed — так его непрерывная CSS-анимация
+   всегда перерисовывается, а не только во время скролла), а "приклеен"
+   к вьюпорту вручную через transform:translateY(scrollY), который
+   app.js обновляет на каждом кадре (requestAnimationFrame). */
 
-.screen-bg {
+.site-bg {
   position: absolute;
-  inset: 0;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: -2;
   overflow: hidden;
   pointer-events: none;
 }
-.screen-bg-img {
+.site-bg-img {
   display: block;
   width: 100%;
   height: 100%;
@@ -117,7 +120,7 @@ button { font-family: inherit; }
   object-position: center;
   max-width: none;
   transform-origin: 50% 50%;
-  animation: silkDrift 18s ease-in-out infinite;
+  animation: silkDrift 11s ease-in-out infinite;
 }
 
 /* Заметное "плавание" фото — зум, сдвиг и лёгкий поворот по кругу,
@@ -132,10 +135,9 @@ button { font-family: inherit; }
   100% { transform: scale(1.12) translate(0%, 0%)     rotate(0deg); }
 }
 
-/* Лёгкий блик, медленно скользящий по шёлку — имитирует, как свет
-   играет на ткани при движении. Тоже локальный (не body::after
-   position:fixed) по той же причине. */
-.screen-bg::after {
+/* Лёгкий блик, быстро скользящий по шёлку — имитирует, как свет
+   играет на ткани при движении. */
+.site-bg::after {
   content: "";
   position: absolute;
   inset: -15% -30%;
@@ -147,7 +149,7 @@ button { font-family: inherit; }
     rgba(255,255,255,.22) 60%,
     transparent 80%);
   background-size: 220% 220%;
-  animation: silkShimmer 9s ease-in-out infinite;
+  animation: silkShimmer 5s ease-in-out infinite;
 }
 @keyframes silkShimmer {
   0%   { background-position: 10% 20%; }
@@ -184,7 +186,7 @@ body::before {
   justify-content: center;
   text-align: center;
   position: relative;
-  z-index: 0; /* задаёт свой стек — .screen-bg (z-index:-1) не уедет к соседним секциям */
+  z-index: 0; /* контент секций всегда поверх .site-bg (z-index:-2) */
 }
 
 /* ============================================================

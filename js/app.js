@@ -16,24 +16,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const weddingDate = new Date(CONFIG.date);
 
   /* ============================================================
-     0. ФОНОВОЕ ФОТО — своя копия под каждым экраном
-     На iOS Safari анимированный position:fixed-слой перерисовывается
-     только по событию скролла (это его собственный баг), поэтому вместо
-     одного общего "фиксированного" фона на весь сайт под каждым .screen
-     кладётся своя картинка на обычном position:absolute — она не привязана
-     к вьюпорту и перерисовывается браузером как любой обычный контент.
+     0. ФОНОВОЕ ФОТО — один слой на весь сайт, вручную "приклеенный"
+     к вьюпорту через JS (а не CSS position:fixed).
+     Была попытка сделать свою картинку под каждым экраном (обходит
+     баг iOS с "не перерисовывается без скролла"), но у секций разная
+     высота — object-fit:cover обрезал фото по-разному в каждой, и на
+     стыке экранов был виден шов. Правильное решение — один-единственный
+     слой (без шва по определению), position:absolute (не fixed, чтобы
+     не ловить баг с перерисовкой), а положение "как у fixed" эмулируется
+     через transform: translateY(scrollY), который обновляется на каждом
+     кадре через requestAnimationFrame.
      ============================================================ */
-  $$(".screen").forEach(screen => {
-    const wrap = document.createElement("div");
-    wrap.className = "screen-bg";
-    wrap.setAttribute("aria-hidden", "true");
-    const img = document.createElement("img");
-    img.className = "screen-bg-img";
-    img.src = "assets/bg.jpg";
-    img.alt = "";
-    wrap.appendChild(img);
-    screen.insertBefore(wrap, screen.firstChild);
-  });
+  const bgWrap = document.createElement("div");
+  bgWrap.className = "site-bg";
+  bgWrap.setAttribute("aria-hidden", "true");
+  const bgImg = document.createElement("img");
+  bgImg.className = "site-bg-img";
+  bgImg.src = "assets/bg.jpg";
+  bgImg.alt = "";
+  bgWrap.appendChild(bgImg);
+  document.body.insertBefore(bgWrap, document.body.firstChild);
+
+  function syncBgPosition() {
+    bgWrap.style.transform = `translateY(${window.scrollY}px)`;
+    requestAnimationFrame(syncBgPosition);
+  }
+  requestAnimationFrame(syncBgPosition);
 
   /* ============================================================
      1. ЗАПОЛНЕНИЕ КОНТЕНТА ИЗ CONFIG
