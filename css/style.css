@@ -395,18 +395,41 @@ body::before {
   font-size: clamp(15px, 4.4vw, 17px);
   margin: 0 0 28px;
 }
+/* Монограмма и имена — одна композиция: крупные каллиграфические
+   инициалы фоном, поверх них наложен ряд с именами (как на референсе:
+   инициалы "прошиты" именами насквозь, а не стоят отдельно сверху). */
+.monogram-wrap {
+  position: relative;
+  width: 100%;
+  min-height: clamp(150px, 46vw, 230px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 56px;
+}
 .monogram {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-script);
-  font-size: clamp(90px, 30vw, 140px);
-  line-height: .8;
-  margin-bottom: 14px;
+  font-weight: 400;
+  font-size: clamp(150px, 50vw, 240px);
+  line-height: 1;
+  letter-spacing: -.09em;
+  color: var(--ink);
+  white-space: nowrap;
+  pointer-events: none;
 }
 .names-en {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-caps);
   font-weight: 500;
   letter-spacing: 2.5px;
-  font-size: clamp(24px, 8vw, 34px);
-  margin: 0 0 60px;
+  font-size: clamp(19px, 6vw, 26px);
+  margin: 0;
 }
 .scroll-hint {
   position: absolute;

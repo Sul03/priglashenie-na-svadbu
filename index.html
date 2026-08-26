@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Приглашение на свадьбу</title>
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=9">
 </head>
 <body>
 
@@ -65,8 +65,10 @@
   <!-- ЭКРАН 1 — ГЛАВНЫЙ -->
   <section class="screen screen-hero reveal">
     <p class="date-short reveal-item"></p>
-    <div class="monogram reveal-item"></div>
-    <p class="names-en reveal-item"></p>
+    <div class="monogram-wrap reveal-item">
+      <span class="monogram" aria-hidden="true"></span>
+      <p class="names-en"></p>
+    </div>
     <p class="scroll-hint reveal-item">Листайте вниз<br><span class="chevrons">⌄</span></p>
   </section>
 
@@ -179,7 +181,7 @@
 
 <audio id="bgMusic" loop preload="none"></audio>
 
-<script src="js/config.js?v=7"></script>
-<script src="js/app.js?v=7"></script>
+<script src="js/config.js?v=9"></script>
+<script src="js/app.js?v=9"></script>
 </body>
 </html>
