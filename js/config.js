@@ -37,10 +37,9 @@ const CONFIG = {
   // Пока пусто — кнопка-«динамик» не показывается.
   musicSrc: "assets/music.mp3",
 
-  // URL веб-приложения Google Apps Script (см. GOOGLE_SHEETS_SETUP.md).
-  // Пока пусто — форма подтверждения будет просто показывать успех локально,
-  // но никуда не отправлять данные.
-  scriptUrl: "",
+  // URL веб-приложения Google Apps Script (см. TELEGRAM_SETUP.md) —
+  // пересылает ответы анкеты в Telegram.
+  scriptUrl: "https://script.google.com/macros/s/AKfycbxiHlOKfJpng-UsKVVJY6UHO7pBFHMflUonw9Dc6d7XQUltLffkjf-ZJdHORZxuXIumLw/exec",
 
   // Напитки в анкете (порядок сохранится)
   drinkOptions: ["Вино", "Шампанское", "Водка", "Виски", "Коньяк", "Безалкогольный напиток"]
