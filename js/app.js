@@ -15,33 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const weddingDate = new Date(CONFIG.date);
 
-  /* ============================================================
-     0. ФОНОВОЕ ФОТО — один слой на весь сайт, вручную "приклеенный"
-     к вьюпорту через JS (а не CSS position:fixed).
-     Была попытка сделать свою картинку под каждым экраном (обходит
-     баг iOS с "не перерисовывается без скролла"), но у секций разная
-     высота — object-fit:cover обрезал фото по-разному в каждой, и на
-     стыке экранов был виден шов. Правильное решение — один-единственный
-     слой (без шва по определению), position:absolute (не fixed, чтобы
-     не ловить баг с перерисовкой), а положение "как у fixed" эмулируется
-     через transform: translateY(scrollY), который обновляется на каждом
-     кадре через requestAnimationFrame.
-     ============================================================ */
-  const bgWrap = document.createElement("div");
-  bgWrap.className = "site-bg";
-  bgWrap.setAttribute("aria-hidden", "true");
-  const bgImg = document.createElement("img");
-  bgImg.className = "site-bg-img";
-  bgImg.src = "assets/bg.jpg";
-  bgImg.alt = "";
-  bgWrap.appendChild(bgImg);
-  document.body.insertBefore(bgWrap, document.body.firstChild);
-
-  function syncBgPosition() {
-    bgWrap.style.transform = `translateY(${window.scrollY}px)`;
-    requestAnimationFrame(syncBgPosition);
-  }
-  requestAnimationFrame(syncBgPosition);
 
   /* ============================================================
      1. ЗАПОЛНЕНИЕ КОНТЕНТА ИЗ CONFIG

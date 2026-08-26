@@ -4,9 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Приглашение на свадьбу</title>
-<link rel="stylesheet" href="css/style.css?v=6">
+<link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
+
+<!-- Единый фон на весь сайт: position:sticky вместо fixed — браузер
+     сам синхронизирует его со скроллом на уровне рендеринга, без JS
+     (JS-эмуляция через requestAnimationFrame дрожала на реальном
+     пальцевом скролле — main-поток чуть отставал от нативного скролла). -->
+<div class="site-bg" aria-hidden="true">
+  <img class="site-bg-img" src="assets/bg.jpg" alt="">
+</div>
 
 <!-- Показывается только на широких экранах (планшет/компьютер) —
      сама страница рассчитана только на телефон -->
@@ -171,7 +179,7 @@
 
 <audio id="bgMusic" loop preload="none"></audio>
 
-<script src="js/config.js?v=6"></script>
-<script src="js/app.js?v=6"></script>
+<script src="js/config.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
 </body>
 </html>
