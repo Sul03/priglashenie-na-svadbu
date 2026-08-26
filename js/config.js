@@ -38,7 +38,7 @@ const CONFIG = {
 
   // URL веб-приложения Google Apps Script (см. TELEGRAM_SETUP.md) —
   // пересылает ответы анкеты в Telegram.
-  scriptUrl: "https://script.google.com/macros/s/AKfycbxiHlOKfJpng-UsKVVJY6UHO7pBFHMflUonw9Dc6d7XQUltLffkjf-ZJdHORZxuXIumLw/exec",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbybYIaDcgqPiI851sOBIPE32MnRIZ4VKFNi_B_mInARgy6DEQ3_4GSJV1dROz68TpnRtA/exec",
 
   // Напитки в анкете (порядок сохранится)
   drinkOptions: ["Вино", "Шампанское", "Водка", "Виски", "Коньяк", "Безалкогольный напиток"]
