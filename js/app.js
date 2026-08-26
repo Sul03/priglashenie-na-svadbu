@@ -16,6 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const weddingDate = new Date(CONFIG.date);
 
   /* ============================================================
+     0. ФОНОВОЕ ФОТО — своя копия под каждым экраном
+     На iOS Safari анимированный position:fixed-слой перерисовывается
+     только по событию скролла (это его собственный баг), поэтому вместо
+     одного общего "фиксированного" фона на весь сайт под каждым .screen
+     кладётся своя картинка на обычном position:absolute — она не привязана
+     к вьюпорту и перерисовывается браузером как любой обычный контент.
+     ============================================================ */
+  $$(".screen").forEach(screen => {
+    const wrap = document.createElement("div");
+    wrap.className = "screen-bg";
+    wrap.setAttribute("aria-hidden", "true");
+    const img = document.createElement("img");
+    img.className = "screen-bg-img";
+    img.src = "assets/bg.jpg";
+    img.alt = "";
+    wrap.appendChild(img);
+    screen.insertBefore(wrap, screen.firstChild);
+  });
+
+  /* ============================================================
      1. ЗАПОЛНЕНИЕ КОНТЕНТА ИЗ CONFIG
      ============================================================ */
 

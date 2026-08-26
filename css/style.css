@@ -91,22 +91,25 @@ img { max-width: 100%; display: block; }
 button { font-family: inherit; }
 
 /* ============================================================
-   ФОН — единая шёлковая подложка на весь сайт (настоящий <img>,
-   а не CSS background-image — так надёжнее рендерится везде).
+   ФОН — своя шёлковая подложка под каждым экраном (не одна общая
+   position:fixed на весь сайт).
+   На iOS Safari position:fixed-слой с непрерывной CSS-анимацией
+   перерисовывается только по событию скролла — сама по себе анимация
+   в покое "замирает". Обычный position:absolute внутри уже
+   находящейся в потоке секции (.screen) не привязан к вьюпорту и
+   перерисовывается браузером как любой другой контент — без этого
+   ограничения. Картинка вставляется в каждый .screen через JS
+   (см. app.js) — один и тот же файл, браузер отдаёт его из кэша.
    ============================================================ */
 
-/* position:fixed сидит на обёртке, а transform-анимация — на самой
-   картинке. На iOS Safari анимация transform на элементе, который
-   сам является position:fixed, часто вообще не запускается —
-   это известная особенность рендеринга. Разделение на два элемента
-   решает проблему. */
-.bg-photo-wrap {
-  position: fixed;
+.screen-bg {
+  position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
   overflow: hidden;
+  pointer-events: none;
 }
-.bg-photo {
+.screen-bg-img {
   display: block;
   width: 100%;
   height: 100%;
@@ -129,26 +132,13 @@ button { font-family: inherit; }
   100% { transform: scale(1.12) translate(0%, 0%)     rotate(0deg); }
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(242,237,228,.35) 0%,
-    rgba(242,237,228,.08) 18%,
-    rgba(232,223,208,.15) 60%,
-    rgba(242,237,228,.55) 100%);
-}
-
 /* Лёгкий блик, медленно скользящий по шёлку — имитирует, как свет
-   играет на ткани при движении. */
-body::after {
+   играет на ткани при движении. Тоже локальный (не body::after
+   position:fixed) по той же причине. */
+.screen-bg::after {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: -15% -30%;
-  z-index: -1;
   pointer-events: none;
   background: linear-gradient(115deg,
     transparent 20%,
@@ -165,6 +155,21 @@ body::after {
   100% { background-position: 10% 20%; }
 }
 
+/* Мягкая читаемость-подложка поверх фото — статична, поэтому
+   безопасно оставить на body::before position:fixed. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(242,237,228,.35) 0%,
+    rgba(242,237,228,.08) 18%,
+    rgba(232,223,208,.15) 60%,
+    rgba(242,237,228,.55) 100%);
+}
+
 /* ============================================================
    ЭКРАНЫ — общая раскладка
    ============================================================ */
@@ -179,6 +184,7 @@ body::after {
   justify-content: center;
   text-align: center;
   position: relative;
+  z-index: 0; /* задаёт свой стек — .screen-bg (z-index:-1) не уедет к соседним секциям */
 }
 
 /* ============================================================
