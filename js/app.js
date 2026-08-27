@@ -35,6 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Экран 4 — локация
   const venueTitleEl = $(".venue-title");
   if (venueTitleEl) venueTitleEl.textContent = CONFIG.venue.title;
+  const venueTimeEl = $(".venue-time");
+  if (venueTimeEl) {
+    // timeZone указан явно (Тюмень, UTC+5) — иначе гость из другого пояса
+    // увидел бы пересчитанное под себя время, а не время начала на месте.
+    venueTimeEl.textContent = weddingDate.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Yekaterinburg" });
+  }
   const venueAddressEl = $(".venue-address");
   if (venueAddressEl) venueAddressEl.textContent = CONFIG.venue.address;
   const mapLink = $("#mapLink");
