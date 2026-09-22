@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-  const WEEKDAYS_RU = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
   // Тюмень, UTC+5 — все даты/время показываем по месту проведения,
   // а не по часовому поясу телефона гостя.
   const TZ = "Asia/Yekaterinburg";
@@ -17,25 +16,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ============================================================
-     1. ЗАПОЛНЕНИЕ КОНТЕНТА ИЗ CONFIG
+     1. ЗАПОЛНЕНИЕ КОНТЕНТА
      ============================================================ */
 
   const setText = (sel, text) => $$(sel).forEach(el => { el.textContent = text; });
 
+  // Не зависит от языка
   const timeText = weddingDate.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: TZ });
-  const weekdayText = weddingDate.toLocaleDateString("ru-RU", { weekday: "long", timeZone: TZ }).toUpperCase();
-  const dayMonthText = weddingDate.toLocaleDateString("ru-RU", { day: "numeric", month: "long", timeZone: TZ });
-
   setText(".date-short", weddingDate.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: TZ }));
   setText(".names-en", CONFIG.names.en);
-  setText(".date-caps", CONFIG.dateText);
-  setText(".weekday", weekdayText);
-  setText(".venue-time", timeText);
-  setText(".venue-title", CONFIG.venue.title);
-  setText(".venue-when", dayMonthText + " · начало в " + timeText);
-  setText(".venue-address", CONFIG.venue.address);
-
   $("#mapLink").href = CONFIG.venue.mapUrl;
+
+  /* ---------- Язык ---------- */
+
+  let lang = "ru";
+  let T = I18N.ru;
+
+  function detectLang() {
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved && I18N[saved]) return saved;
+    } catch (e) { /* приватный режим — не страшно */ }
+    return (navigator.language || "").toLowerCase().startsWith("az") ? "az" : "ru";
+  }
+
+  function applyLang(next) {
+    lang = I18N[next] ? next : "ru";
+    T = I18N[lang];
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+
+    document.documentElement.lang = lang;
+    document.title = T.pageTitle;
+
+    // Тексты — только из нашего же i18n.js, поэтому innerHTML
+    // безопасен (нужен ради <br> в заголовках).
+    $$("[data-i18n]").forEach(el => { el.innerHTML = T[el.dataset.i18n]; });
+    $$("[data-i18n-ph]").forEach(el => { el.placeholder = T[el.dataset.i18nPh]; });
+
+    setText(".time-line", T.weekday + " · " + T.startsAt + " " + timeText);
+    setText(".venue-when", T.dayMonth + " · " + T.startsAtLower + " " + timeText);
+
+    buildCalendar();
+
+    $$(".lang-btn").forEach(b => {
+      const on = b.dataset.lang === lang;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", on);
+    });
+  }
+
+  $$(".lang-btn").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
 
   const venuePhoto = $("#venuePhoto");
   if (CONFIG.venue.photo) {
@@ -71,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     firstWeekday = firstWeekday === 0 ? 7 : firstWeekday; // 1=пн..7=вс
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    WEEKDAYS_RU.forEach(w => {
+    T.weekdaysShort.forEach(w => {
       const el = document.createElement("div");
       el.className = "cal-day cal-weekday";
       el.textContent = w;
@@ -95,7 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
       cal.appendChild(el);
     }
   }
-  buildCalendar();
+
+  applyLang(detectLang());
 
   /* ============================================================
      3. «РОЛИК» — СЦЕНЫ, КАК СТОРИС
@@ -275,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const submitBtn = rsvpForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    submitBtn.textContent = "ОТПРАВКА…";
+    submitBtn.textContent = T.sending;
 
     const fd = new FormData(rsvpForm);
     const payload = {
@@ -292,8 +323,8 @@ document.addEventListener("DOMContentLoaded", () => {
       rsvpSuccess.scrollIntoView({ behavior: "smooth", block: "center" });
     } catch (err) {
       submitBtn.disabled = false;
-      submitBtn.textContent = "ПОДТВЕРДИТЬ";
-      alert("Не удалось отправить ответ. Проверьте интернет-соединение и попробуйте ещё раз.");
+      submitBtn.textContent = T.submit;
+      alert(T.sendError);
     }
   });
 

@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Приглашение на свадьбу</title>
-<link rel="stylesheet" href="css/style.css?v=16">
+<link rel="stylesheet" href="css/style.css?v=17">
 </head>
 <body>
+
+<!-- Тексты подставляются из js/i18n.js по атрибуту data-i18n (русский
+     или азербайджанский — переключатель с флагами на экране замка).
+     data-i18n-ph — то же самое для placeholder у полей анкеты. -->
 
 <!-- Единый фон на весь сайт: position:sticky вместо fixed — браузер
      сам синхронизирует его со скроллом на уровне рендеринга, без JS
@@ -20,19 +24,17 @@
      сама страница рассчитана только на телефон -->
 <div id="desktopGate">
   <div class="desktop-gate-inner">
-    <p class="script-caps">ПРИГЛАШЕНИЕ</p>
-    <p class="desktop-gate-text">
-      Эта страница отображается только на смартфонах<br>в вертикальной ориентации.
-    </p>
-    <p class="desktop-gate-text">Наведите камеру телефона на QR-код:</p>
+    <p class="script-caps" data-i18n="lockTitle">ПРИГЛАШЕНИЕ</p>
+    <p class="desktop-gate-text" data-i18n="gateText1"></p>
+    <p class="desktop-gate-text" data-i18n="gateText2"></p>
     <div class="qr-card">
-      <img src="assets/qr.svg" alt="QR-код со ссылкой на приглашение" width="220" height="220">
+      <img src="assets/qr.svg" alt="QR" width="220" height="220">
     </div>
     <p class="desktop-gate-text qr-url">wedding-sul-el.ru</p>
   </div>
 </div>
 
-<button id="soundToggle" class="sound-btn" aria-label="Включить/выключить музыку" type="button">
+<button id="soundToggle" class="sound-btn" aria-label="Музыка / Musiqi" type="button">
   <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/>
     <path d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -46,10 +48,37 @@
 
 <!-- ЗАМОК -->
 <section id="screen-lock" class="screen screen-lock">
+
+  <!-- Переключатель языка -->
+  <div class="lang-switch" role="group" aria-label="Язык / Dil">
+    <button class="lang-btn" data-lang="az" type="button" aria-label="Azərbaycan dili">
+      <svg class="flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="60" height="10" fill="#00b5e2"/>
+        <rect y="10" width="60" height="10" fill="#ef3340"/>
+        <rect y="20" width="60" height="10" fill="#509e2f"/>
+        <circle cx="28.3" cy="15" r="4.5" fill="#fff"/>
+        <circle cx="29.5" cy="15" r="3.75" fill="#ef3340"/>
+        <g transform="translate(33.6 15)" fill="#fff">
+          <rect x="-1.35" y="-1.35" width="2.7" height="2.7"/>
+          <rect x="-1.35" y="-1.35" width="2.7" height="2.7" transform="rotate(45)"/>
+        </g>
+      </svg>
+      <span>AZ</span>
+    </button>
+    <button class="lang-btn" data-lang="ru" type="button" aria-label="Русский язык">
+      <svg class="flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="60" height="10" fill="#fff"/>
+        <rect y="10" width="60" height="10" fill="#0039a6"/>
+        <rect y="20" width="60" height="10" fill="#d52b1e"/>
+      </svg>
+      <span>RU</span>
+    </button>
+  </div>
+
   <div class="lock-inner">
-    <h1 class="script-caps">ПРИГЛАШЕНИЕ</h1>
-    <p class="script-cursive-lg">на свадьбу</p>
-    <button id="unlockBtn" class="lock-btn" type="button" aria-label="Разблокировать приглашение">
+    <h1 class="script-caps" data-i18n="lockTitle">ПРИГЛАШЕНИЕ</h1>
+    <p class="script-cursive-lg" data-i18n="lockSub">на свадьбу</p>
+    <button id="unlockBtn" class="lock-btn" type="button" aria-label="Открыть / Açmaq">
       <svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="1.2"/>
         <g class="lock-shackle">
@@ -60,7 +89,7 @@
         <path d="M32 36.5v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
     </button>
-    <p class="lock-hint">Разблокируйте<br>приглашение</p>
+    <p class="lock-hint" data-i18n="lockHint"></p>
   </div>
 </section>
 
@@ -81,92 +110,90 @@
 
   <!-- Сцена 2 — обращение -->
   <section class="scene scene-greeting" data-dur="10000">
-    <h2 class="caps-title anim" style="--d:.2s">ДОРОГИЕ РОДНЫЕ<br>И БЛИЗКИЕ!</h2>
-    <p class="body-text anim" style="--d:1.4s">
-      Приглашаем Вас разделить с нами радость особенного для нас события и стать частью нашей семейной истории!
-    </p>
-    <p class="body-text anim" style="--d:3.6s">
-      Совсем скоро состоится наша СВАДЬБА!<br>
-      И мы не представляем этот праздник без Вас, близких и дорогих нам людей.
-    </p>
+    <h2 class="caps-title anim" style="--d:.2s" data-i18n="greetTitle"></h2>
+    <p class="body-text anim" style="--d:1.4s" data-i18n="greetP1"></p>
+    <p class="body-text anim" style="--d:3.6s" data-i18n="greetP2"></p>
   </section>
 
   <!-- Сцена 3 — дата и время -->
   <section class="scene scene-date" data-dur="8000">
-    <h2 class="script-title anim" style="--d:.2s">Дата</h2>
-    <p class="date-caps anim" style="--d:.8s"></p>
+    <h2 class="script-title anim" style="--d:.2s" data-i18n="dateTitle"></h2>
+    <p class="date-caps anim" style="--d:.8s" data-i18n="dateText"></p>
     <div class="calendar anim" style="--d:1.3s" id="calendar"></div>
-    <p class="time-line anim" style="--d:2.8s"><span class="weekday"></span> · НАЧАЛО В <span class="venue-time"></span></p>
+    <p class="time-line anim" style="--d:2.8s"></p>
   </section>
 
   <!-- Сцена 4 — локация. Последняя: не перелистывается сама,
        держится, пока гость не нажмёт «Подтвердить присутствие». -->
   <section class="scene scene-location" data-dur="9000">
-    <h2 class="script-title anim" style="--d:.2s">Локация</h2>
-    <p class="venue-title anim" style="--d:.7s"></p>
+    <h2 class="script-title anim" style="--d:.2s" data-i18n="locTitle"></h2>
+    <p class="venue-title anim" style="--d:.7s" data-i18n="venueTitle"></p>
     <p class="body-text small venue-when anim" style="--d:1.1s"></p>
-    <p class="body-text small anim" style="--d:1.4s"><span class="venue-address"></span></p>
+    <p class="body-text small venue-address anim" style="--d:1.4s" data-i18n="venueAddress"></p>
     <div class="venue-photo-wrap anim" style="--d:1.9s">
-      <img class="venue-photo" id="venuePhoto" alt="Ресторан — место проведения торжества">
+      <img class="venue-photo" id="venuePhoto" alt="">
     </div>
     <div class="map-wrap anim" style="--d:2.6s">
-      <iframe id="venueMap" title="Карта" loading="lazy" allowfullscreen></iframe>
+      <iframe id="venueMap" title="Map" loading="lazy" allowfullscreen></iframe>
     </div>
-    <a class="map-link anim" style="--d:2.9s" id="mapLink" target="_blank" rel="noopener">Открыть в Яндекс Картах ↗</a>
-    <button class="btn-outline btn-solid anim" style="--d:3.4s" id="toRsvpBtn" type="button">ПОДТВЕРДИТЬ ПРИСУТСТВИЕ</button>
+    <a class="map-link anim" style="--d:2.9s" id="mapLink" target="_blank" rel="noopener" data-i18n="mapLink"></a>
+    <button class="btn-outline btn-solid anim" style="--d:3.4s" id="toRsvpBtn" type="button" data-i18n="toRsvp"></button>
   </section>
 
-  <p class="film-hint" id="filmHint">нажмите, чтобы перелистнуть</p>
+  <p class="film-hint" id="filmHint" data-i18n="filmHint"></p>
 </div>
 
 <!-- СЛАЙД 2 — АНКЕТА -->
 <main id="rsvpPage" class="rsvp-page" hidden>
   <section class="screen screen-confirm">
-    <button class="replay-btn" id="replayBtn" type="button">↻ Посмотреть приглашение ещё раз</button>
+    <button class="replay-btn" id="replayBtn" type="button" data-i18n="replay"></button>
 
-    <p class="caps-title">ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br>СВОЁ ПРИСУТСТВИЕ</p>
+    <p class="caps-title" data-i18n="rsvpTitle"></p>
 
     <div class="form-card">
       <form id="rsvpForm" class="rsvp-form">
         <label class="field">
-          <span class="field-label">Ваша фамилия:</span>
-          <input type="text" name="surname" placeholder="Ивановы" required>
+          <span class="field-label" data-i18n="surnameLabel"></span>
+          <input type="text" name="surname" data-i18n-ph="surnamePh" required>
         </label>
 
         <label class="field">
-          <span class="field-label">Ваше имя (если Вы придете со своей парой, то укажите оба имени):</span>
-          <input type="text" name="firstname" placeholder="Иван и Анна" required>
+          <span class="field-label" data-i18n="nameLabel"></span>
+          <input type="text" name="firstname" data-i18n-ph="namePh" required>
         </label>
 
+        <!-- value отправляется в Telegram — оставлен по-русски на обоих
+             языках, чтобы ответы в группе выглядели одинаково -->
         <fieldset class="field-group">
-          <legend>Присутствие:</legend>
+          <legend data-i18n="presenceLegend"></legend>
           <label class="radio-row">
             <input type="radio" name="presence" value="Приду(придём)" required>
-            <span>Я (мы) с удовольствием приду (придем)</span>
+            <span data-i18n="presenceYes"></span>
           </label>
           <label class="radio-row">
             <input type="radio" name="presence" value="Не смогу(не сможем)">
-            <span>К сожалению, не смогу (не сможем) присутствовать</span>
+            <span data-i18n="presenceNo"></span>
           </label>
         </fieldset>
 
-        <button type="submit" class="btn-outline">ПОДТВЕРДИТЬ</button>
+        <button type="submit" class="btn-outline" data-i18n="submit"></button>
       </form>
 
       <div id="rsvpSuccess" class="rsvp-success" hidden>
-        <p>Спасибо! Ваш ответ записан.</p>
+        <p data-i18n="success"></p>
       </div>
     </div>
 
     <div class="final-block">
-      <h2 class="script-title">Ждём Вас!</h2>
+      <h2 class="script-title" data-i18n="finalTitle"></h2>
     </div>
   </section>
 </main>
 
 <audio id="bgMusic" loop preload="none"></audio>
 
-<script src="js/config.js?v=16"></script>
-<script src="js/app.js?v=16"></script>
+<script src="js/config.js?v=17"></script>
+<script src="js/i18n.js?v=17"></script>
+<script src="js/app.js?v=17"></script>
 </body>
 </html>

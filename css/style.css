@@ -307,6 +307,54 @@ body::before {
   transform: rotate(-42deg) translate(-4px, -1px);
 }
 
+/* Переключатель языка — плашка в левом верхнем углу экрана замка */
+.lang-switch {
+  position: absolute;
+  top: calc(max(18px, env(safe-area-inset-top)) + 12px);
+  left: 18px;
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 4px 18px rgba(32,28,23,.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: opacity .55s var(--ease-out);
+}
+.unlocking .lang-switch { opacity: 0; pointer-events: none; }
+.lang-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px 5px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  opacity: .6;
+  transition: opacity .25s, background .25s;
+}
+.lang-btn.active {
+  opacity: 1;
+  background: rgba(255,255,255,.95);
+}
+.lang-btn .flag {
+  display: block;
+  width: 36px;
+  height: 18px; /* 2:1 — как viewBox флагов */
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(32,28,23,.12);
+}
+.lang-btn span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
 .lock-hint {
   margin-top: 18px;
   font-size: 14px;
