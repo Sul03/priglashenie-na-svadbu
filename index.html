@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Приглашение на свадьбу</title>
-<link rel="stylesheet" href="css/style.css?v=15">
+<link rel="stylesheet" href="css/style.css?v=16">
 </head>
 <body>
 
@@ -24,7 +24,11 @@
     <p class="desktop-gate-text">
       Эта страница отображается только на смартфонах<br>в вертикальной ориентации.
     </p>
-    <p class="desktop-gate-text">Пожалуйста, откройте ссылку с телефона.</p>
+    <p class="desktop-gate-text">Наведите камеру телефона на QR-код:</p>
+    <div class="qr-card">
+      <img src="assets/qr.svg" alt="QR-код со ссылкой на приглашение" width="220" height="220">
+    </div>
+    <p class="desktop-gate-text qr-url">wedding-sul-el.ru</p>
   </div>
 </div>
 
@@ -121,7 +125,6 @@
     <button class="replay-btn" id="replayBtn" type="button">↻ Посмотреть приглашение ещё раз</button>
 
     <p class="caps-title">ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br>СВОЁ ПРИСУТСТВИЕ</p>
-    <p class="deadline" id="rsvpDeadline"></p>
 
     <div class="form-card">
       <form id="rsvpForm" class="rsvp-form">
@@ -157,14 +160,13 @@
 
     <div class="final-block">
       <h2 class="script-title">Ждём Вас!</h2>
-      <p class="caps-title">ИСКРЕННЕ ВАШИ,<br><span id="finalNames"></span></p>
     </div>
   </section>
 </main>
 
 <audio id="bgMusic" loop preload="none"></audio>
 
-<script src="js/config.js?v=15"></script>
-<script src="js/app.js?v=15"></script>
+<script src="js/config.js?v=16"></script>
+<script src="js/app.js?v=16"></script>
 </body>
 </html>

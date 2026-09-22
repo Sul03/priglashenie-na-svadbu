@@ -667,12 +667,6 @@ body::before {
   text-underline-offset: 3px;
 }
 
-.deadline {
-  font-weight: 400;
-  letter-spacing: 1px;
-  margin: 0 0 24px;
-}
-
 .form-card {
   width: 100%;
   max-width: 380px;
@@ -745,8 +739,8 @@ body::before {
   font-weight: 400;
 }
 
-.final-block { margin-top: 56px; }
-.final-block .caps-title { font-weight: 400; letter-spacing: 1.5px; }
+.rsvp-page .caps-title { margin-bottom: 28px; }
+.final-block { margin-top: 48px; }
 
 /* При "уменьшить движение" анимации отключены — элементы сцен
    должны сразу быть видимыми, а не застрять в opacity:0. */
@@ -789,4 +783,15 @@ body::before {
     color: var(--ink-soft);
     margin: 0 0 14px;
   }
+  /* Белая подложка — камеры телефонов надёжнее читают QR на чистом белом */
+  .qr-card {
+    display: inline-block;
+    background: #fff;
+    border-radius: 18px;
+    padding: 14px;
+    margin: 8px 0 14px;
+    box-shadow: 0 14px 40px rgba(32,28,23,.12);
+  }
+  .qr-card img { width: 220px; height: 220px; }
+  .qr-url { letter-spacing: 1px; color: var(--ink); }
 }

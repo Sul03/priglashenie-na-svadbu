@@ -29,12 +29,9 @@ const CONFIG = {
     photo: "assets/venue/photo.jpg"
   },
 
-  // Крайний срок подтверждения присутствия (текстом, для блока "Подтверждение")
-  rsvpDeadline: "25.09.2026",
-
   // Фоновая музыка (mp3). Положите файл в assets/music.mp3 и впишите путь сюда.
   // Пока пусто — кнопка-«динамик» не показывается.
-  musicSrc: "assets/music.mp3",
+  musicSrc: "assets/TurkMusic.mp3",
 
   // URL веб-приложения Google Apps Script (см. TELEGRAM_SETUP.md) —
   // пересылает ответы анкеты в Telegram.

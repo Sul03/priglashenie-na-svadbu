@@ -34,8 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setText(".venue-title", CONFIG.venue.title);
   setText(".venue-when", dayMonthText + " · начало в " + timeText);
   setText(".venue-address", CONFIG.venue.address);
-  setText("#rsvpDeadline", "до " + CONFIG.rsvpDeadline);
-  setText("#finalNames", CONFIG.names.ru);
 
   $("#mapLink").href = CONFIG.venue.mapUrl;
 
@@ -258,6 +256,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const rsvpForm = $("#rsvpForm");
   const rsvpSuccess = $("#rsvpSuccess");
 
+  // Отправка в Apps Script. Apps Script сначала выполняет doPost (сообщение
+  // в Telegram уходит сразу), а потом отвечает редиректом на другой домен —
+  // и на телефонах ожидание этого ответа могло тянуться бесконечно: кнопка
+  // так и оставалась "ОТПРАВКА…". Поэтому ждём ответ не дольше 3 секунд —
+  // сам запрос при этом продолжает идти в фоне, ответ нам не нужен.
+  function sendRsvp(payload) {
+    const req = fetch(CONFIG.scriptUrl, {
+      method: "POST",
+      mode: "no-cors", // Apps Script Web App не шлёт CORS-заголовки
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    return Promise.race([req, new Promise(r => setTimeout(r, 3000))]);
+  }
+
   rsvpForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const submitBtn = rsvpForm.querySelector('button[type="submit"]');
@@ -273,16 +286,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      if (CONFIG.scriptUrl) {
-        await fetch(CONFIG.scriptUrl, {
-          method: "POST",
-          mode: "no-cors", // Apps Script Web App не всегда шлёт CORS-заголовки; ответ нам не критичен
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-      }
+      if (CONFIG.scriptUrl) await sendRsvp(payload);
       rsvpForm.hidden = true;
       rsvpSuccess.hidden = false;
+      rsvpSuccess.scrollIntoView({ behavior: "smooth", block: "center" });
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = "ПОДТВЕРДИТЬ";
