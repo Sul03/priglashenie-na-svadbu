@@ -63,7 +63,7 @@ const I18N = {
     gateText2: "Telefonunuzun kamerasını QR-koda yönəldin:",
 
     lockTitle: "DƏVƏTNAMƏ",
-    lockSub: "toy mərasiminə",
+    lockSub: "Toy mərasiminə",
     lockHint: "Dəvətnaməni<br>açın",
 
     filmHint: "vərəqləmək üçün toxunun",

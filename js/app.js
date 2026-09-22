@@ -29,21 +29,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- Язык ---------- */
 
-  let lang = "ru";
-  let T = I18N.ru;
+  // По умолчанию — азербайджанский. Запоминаем только язык, который гость
+  // выбрал сам нажатием на флаг (ключ "langChoice"; старый ключ "lang"
+  // записывался автоматически при каждом открытии, поэтому не читаем его).
+  const DEFAULT_LANG = "az";
+  let lang = DEFAULT_LANG;
+  let T = I18N[DEFAULT_LANG];
 
   function detectLang() {
     try {
-      const saved = localStorage.getItem("lang");
+      const saved = localStorage.getItem("langChoice");
       if (saved && I18N[saved]) return saved;
     } catch (e) { /* приватный режим — не страшно */ }
-    return (navigator.language || "").toLowerCase().startsWith("az") ? "az" : "ru";
+    return DEFAULT_LANG;
   }
 
   function applyLang(next) {
-    lang = I18N[next] ? next : "ru";
+    lang = I18N[next] ? next : DEFAULT_LANG;
     T = I18N[lang];
-    try { localStorage.setItem("lang", lang); } catch (e) {}
 
     document.documentElement.lang = lang;
     document.title = T.pageTitle;
@@ -65,7 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  $$(".lang-btn").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
+  $$(".lang-btn").forEach(b => b.addEventListener("click", () => {
+    applyLang(b.dataset.lang);
+    try { localStorage.setItem("langChoice", lang); } catch (e) {}
+  }));
 
   const venuePhoto = $("#venuePhoto");
   if (CONFIG.venue.photo) {
