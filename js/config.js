@@ -23,7 +23,7 @@ const CONFIG = {
 
   // Локация
   venue: {
-    title: 'В РЕСТОРАНЕ "ЗАМОК ДРУЖБЫ"',
+    title: 'В РЕСТОРАНЕ "ЗАМОК ДРУЖБЫ"', //   — неразрывный пробел, название не рвётся на две строки
     address: "г. Тюмень, ул. Дружбы, 183",
     mapUrl: "https://yandex.ru/maps/?text=Тюмень,+улица+Дружбы,+183",
     photo: "assets/venue/photo.jpg"
@@ -38,8 +38,5 @@ const CONFIG = {
 
   // URL веб-приложения Google Apps Script (см. TELEGRAM_SETUP.md) —
   // пересылает ответы анкеты в Telegram.
-  scriptUrl: "https://script.google.com/macros/s/AKfycbybYIaDcgqPiI851sOBIPE32MnRIZ4VKFNi_B_mInARgy6DEQ3_4GSJV1dROz68TpnRtA/exec",
-
-  // Напитки в анкете (порядок сохранится)
-  drinkOptions: ["Вино", "Шампанское", "Водка", "Виски", "Коньяк", "Безалкогольный напиток"]
+  scriptUrl: "https://script.google.com/macros/s/AKfycbybYIaDcgqPiI851sOBIPE32MnRIZ4VKFNi_B_mInARgy6DEQ3_4GSJV1dROz68TpnRtA/exec"
 };

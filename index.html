@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Приглашение на свадьбу</title>
-<link rel="stylesheet" href="css/style.css?v=14">
+<link rel="stylesheet" href="css/style.css?v=15">
 </head>
 <body>
 
@@ -40,7 +40,7 @@
   </svg>
 </button>
 
-<!-- ЭКРАН 0 — ЗАМОК -->
+<!-- ЗАМОК -->
 <section id="screen-lock" class="screen screen-lock">
   <div class="lock-inner">
     <h1 class="script-caps">ПРИГЛАШЕНИЕ</h1>
@@ -60,129 +60,111 @@
   </div>
 </section>
 
-<main id="mainContent" class="main-content" hidden>
+<!-- СЛАЙД 1 — «РОЛИК»: сцены сменяют друг друга сами, как сторис.
+     Тап по правой части экрана — следующая сцена, по левой — предыдущая.
+     data-dur — сколько миллисекунд длится сцена. -->
+<div id="film" class="film" hidden>
+  <div class="film-progress" id="filmProgress"></div>
 
-  <!-- ЭКРАН 1 — ГЛАВНЫЙ -->
-  <section class="screen screen-hero reveal">
-    <p class="date-short reveal-item"></p>
-    <div class="monogram-wrap reveal-item">
-      <img class="monogram" src="assets/monogram.png" alt="" aria-hidden="true">
-      <p class="names-en"></p>
+  <!-- Сцена 1 — инициалы -->
+  <section class="scene scene-hero" data-dur="6500">
+    <p class="date-short anim" style="--d:.3s"></p>
+    <div class="monogram-wrap">
+      <img class="monogram anim-mono" src="assets/monogram.png" alt="" aria-hidden="true">
+      <p class="names-en anim-names"></p>
     </div>
-    <p class="scroll-hint reveal-item">Листайте вниз<br><span class="chevrons">⌄</span></p>
   </section>
 
-  <!-- ЭКРАН 2 — ОБРАЩЕНИЕ -->
-  <section class="screen screen-greeting reveal">
-    <p class="music-pill reveal-item">Если музыка Вас отвлекает, ее можно отключить, нажав на кнопку</p>
-    <h2 class="caps-title reveal-item">ДОРОГИЕ РОДНЫЕ<br>И БЛИЗКИЕ!</h2>
-    <p class="body-text reveal-item">
+  <!-- Сцена 2 — обращение -->
+  <section class="scene scene-greeting" data-dur="10000">
+    <h2 class="caps-title anim" style="--d:.2s">ДОРОГИЕ РОДНЫЕ<br>И БЛИЗКИЕ!</h2>
+    <p class="body-text anim" style="--d:1.4s">
       Приглашаем Вас разделить с нами радость особенного для нас события и стать частью нашей семейной истории!
     </p>
-    <p class="body-text reveal-item">
+    <p class="body-text anim" style="--d:3.6s">
       Совсем скоро состоится наша СВАДЬБА!<br>
       И мы не представляем этот праздник без Вас, близких и дорогих нам людей.
     </p>
   </section>
 
-  <!-- ЭКРАН 3 — ДАТА -->
-  <section class="screen screen-date reveal">
-    <h2 class="script-title reveal-item">Дата</h2>
-    <p class="date-caps reveal-item"></p>
-    <div class="calendar reveal-item" id="calendar"></div>
+  <!-- Сцена 3 — дата и время -->
+  <section class="scene scene-date" data-dur="8000">
+    <h2 class="script-title anim" style="--d:.2s">Дата</h2>
+    <p class="date-caps anim" style="--d:.8s"></p>
+    <div class="calendar anim" style="--d:1.3s" id="calendar"></div>
+    <p class="time-line anim" style="--d:2.8s"><span class="weekday"></span> · НАЧАЛО В <span class="venue-time"></span></p>
   </section>
 
-  <!-- ЭКРАН 4 — ЛОКАЦИЯ -->
-  <section class="screen screen-location reveal">
-    <h2 class="script-title reveal-item">Локация</h2>
-    <p class="body-text reveal-item">Наш праздник пройдет</p>
-    <p class="venue-title reveal-item"></p>
-    <p class="body-text small reveal-item">начало в <span class="venue-time"></span></p>
-    <p class="body-text small reveal-item">по адресу:<br><span class="venue-address"></span></p>
-    <a class="btn-outline reveal-item" id="mapLink" target="_blank" rel="noopener">СМОТРЕТЬ АДРЕС НА КАРТЕ</a>
-    <img class="venue-photo reveal-item" id="venuePhoto" alt="Место проведения торжества">
-  </section>
-
-  <!-- ЭКРАН 6 — ТАЙМЕР -->
-  <section class="screen screen-countdown reveal">
-    <h2 class="script-title reveal-item">До свадьбы</h2>
-    <p class="label-caps reveal-item">ОСТАЛОСЬ</p>
-    <div class="timer reveal-item">
-      <div class="timer-unit"><span class="timer-num" id="tDays">00</span><small>дни</small></div>
-      <span class="timer-sep">|</span>
-      <div class="timer-unit"><span class="timer-num" id="tHours">00</span><small>часы</small></div>
-      <span class="timer-sep">|</span>
-      <div class="timer-unit"><span class="timer-num" id="tMinutes">00</span><small>мин</small></div>
-      <span class="timer-sep">|</span>
-      <div class="timer-unit"><span class="timer-num" id="tSeconds">00</span><small>сек</small></div>
+  <!-- Сцена 4 — локация. Последняя: не перелистывается сама,
+       держится, пока гость не нажмёт «Подтвердить присутствие». -->
+  <section class="scene scene-location" data-dur="9000">
+    <h2 class="script-title anim" style="--d:.2s">Локация</h2>
+    <p class="venue-title anim" style="--d:.7s"></p>
+    <p class="body-text small venue-when anim" style="--d:1.1s"></p>
+    <p class="body-text small anim" style="--d:1.4s"><span class="venue-address"></span></p>
+    <div class="venue-photo-wrap anim" style="--d:1.9s">
+      <img class="venue-photo" id="venuePhoto" alt="Ресторан — место проведения торжества">
     </div>
-  </section>
-
-  <!-- ЭКРАН 7 — ПОДТВЕРЖДЕНИЕ -->
-  <section class="screen screen-confirm reveal">
-    <p class="caps-title reveal-item">ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br>СВОЁ ПРИСУТСТВИЕ</p>
-    <p class="deadline reveal-item" id="rsvpDeadline"></p>
-    <p class="body-text small reveal-item">
-      Просим Вас ответить на несколько вопросов, нажав на кнопку ниже.
-      Это поможет нам в подготовке незабываемого праздника!
-    </p>
-    <button class="btn-outline reveal-item" id="openFormBtn" type="button">ПОДТВЕРДИТЬ</button>
-  </section>
-
-  <!-- ЭКРАН 8 — ФИНАЛ -->
-  <section class="screen screen-final reveal">
-    <h2 class="script-title reveal-item">Ждём Вас!</h2>
-    <p class="caps-title reveal-item">ИСКРЕННЕ ВАШИ,<br><span id="finalNames"></span></p>
-  </section>
-
-</main>
-
-<!-- МОДАЛКА — АНКЕТА -->
-<div id="rsvpModal" class="modal" hidden>
-  <div class="modal-backdrop" id="modalBackdrop"></div>
-  <div class="modal-sheet">
-    <button class="modal-close" id="closeFormBtn" type="button" aria-label="Закрыть">&times;</button>
-
-    <form id="rsvpForm" class="rsvp-form">
-      <label class="field">
-        <span class="field-label">Ваша фамилия:</span>
-        <input type="text" name="surname" placeholder="Ивановы" required>
-      </label>
-
-      <label class="field">
-        <span class="field-label">Ваше имя (если Вы придете со своей парой, то укажите оба имени):</span>
-        <input type="text" name="firstname" placeholder="Иван и Анна" required>
-      </label>
-
-      <fieldset class="field-group">
-        <legend>Присутствие:</legend>
-        <label class="radio-row">
-          <input type="radio" name="presence" value="Приду(придём)" required>
-          <span>Я (мы) с удовольствием приду (придем)</span>
-        </label>
-        <label class="radio-row">
-          <input type="radio" name="presence" value="Не смогу(не сможем)">
-          <span>К сожалению, не смогу (не сможем) присутствовать</span>
-        </label>
-      </fieldset>
-
-      <fieldset class="field-group" id="drinksGroup">
-        <legend>Что предпочитаете из напитков?</legend>
-        <!-- чекбоксы генерируются в app.js из CONFIG.drinkOptions -->
-      </fieldset>
-
-      <button type="submit" class="btn-outline">ПОДТВЕРДИТЬ</button>
-    </form>
-
-    <div id="rsvpSuccess" class="rsvp-success" hidden>
-      <p>Спасибо! Ваш ответ записан.</p>
+    <div class="map-wrap anim" style="--d:2.6s">
+      <iframe id="venueMap" title="Карта" loading="lazy" allowfullscreen></iframe>
     </div>
-  </div>
+    <a class="map-link anim" style="--d:2.9s" id="mapLink" target="_blank" rel="noopener">Открыть в Яндекс Картах ↗</a>
+    <button class="btn-outline btn-solid anim" style="--d:3.4s" id="toRsvpBtn" type="button">ПОДТВЕРДИТЬ ПРИСУТСТВИЕ</button>
+  </section>
+
+  <p class="film-hint" id="filmHint">нажмите, чтобы перелистнуть</p>
 </div>
+
+<!-- СЛАЙД 2 — АНКЕТА -->
+<main id="rsvpPage" class="rsvp-page" hidden>
+  <section class="screen screen-confirm">
+    <button class="replay-btn" id="replayBtn" type="button">↻ Посмотреть приглашение ещё раз</button>
+
+    <p class="caps-title">ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br>СВОЁ ПРИСУТСТВИЕ</p>
+    <p class="deadline" id="rsvpDeadline"></p>
+
+    <div class="form-card">
+      <form id="rsvpForm" class="rsvp-form">
+        <label class="field">
+          <span class="field-label">Ваша фамилия:</span>
+          <input type="text" name="surname" placeholder="Ивановы" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Ваше имя (если Вы придете со своей парой, то укажите оба имени):</span>
+          <input type="text" name="firstname" placeholder="Иван и Анна" required>
+        </label>
+
+        <fieldset class="field-group">
+          <legend>Присутствие:</legend>
+          <label class="radio-row">
+            <input type="radio" name="presence" value="Приду(придём)" required>
+            <span>Я (мы) с удовольствием приду (придем)</span>
+          </label>
+          <label class="radio-row">
+            <input type="radio" name="presence" value="Не смогу(не сможем)">
+            <span>К сожалению, не смогу (не сможем) присутствовать</span>
+          </label>
+        </fieldset>
+
+        <button type="submit" class="btn-outline">ПОДТВЕРДИТЬ</button>
+      </form>
+
+      <div id="rsvpSuccess" class="rsvp-success" hidden>
+        <p>Спасибо! Ваш ответ записан.</p>
+      </div>
+    </div>
+
+    <div class="final-block">
+      <h2 class="script-title">Ждём Вас!</h2>
+      <p class="caps-title">ИСКРЕННЕ ВАШИ,<br><span id="finalNames"></span></p>
+    </div>
+  </section>
+</main>
 
 <audio id="bgMusic" loop preload="none"></audio>
 
-<script src="js/config.js?v=14"></script>
-<script src="js/app.js?v=14"></script>
+<script src="js/config.js?v=15"></script>
+<script src="js/app.js?v=15"></script>
 </body>
 </html>

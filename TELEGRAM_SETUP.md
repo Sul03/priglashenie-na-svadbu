@@ -1,6 +1,6 @@
 # Подключение уведомлений в Telegram
 
-Ответы гостей (кто придёт, какие напитки предпочитает) будут приходить
+Ответы гостей (кто придёт) будут приходить
 сообщением в Telegram. Токен бота при этом нигде не будет виден в коде
 сайта — он хранится в Google Apps Script, а не в браузере гостя.
 Настройка занимает 10 минут, один раз.
@@ -60,7 +60,6 @@ function doPost(e) {
     "Фамилия: " + (data.surname || "—") + "\n" +
     "Имя(на): " + (data.firstname || "—") + "\n" +
     "Присутствие: " + (data.presence || "—") + "\n" +
-    "Напитки: " + (data.drinks || "—") + "\n" +
     "Время ответа: " + (data.timestamp || new Date().toLocaleString("ru-RU"));
 
   UrlFetchApp.fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
